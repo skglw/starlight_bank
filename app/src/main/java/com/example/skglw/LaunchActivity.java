@@ -166,7 +166,7 @@ public class LaunchActivity extends AppCompatActivity {
             String firstname = " " + json.get("firstname").toString();
             String lastname = json.get("lastname").toString();
             String middlename = " " + json.get("middlename").toString();
-            String name = lastname + firstname + middlename;
+            String name = firstname + middlename + lastname;
             User.name = name;
             return name;
         } catch (Exception e) {
