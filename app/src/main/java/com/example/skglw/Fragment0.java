@@ -43,7 +43,7 @@ public class Fragment0 extends Fragment {
         JSONObject json = new JSONObject();
         ArrayList<User.Pay> payList= new ArrayList<User.Pay>();
         try {
-            json.put("token", intent.getStringExtra("token"));
+            json.put("token", User.getToken());
         } catch (Exception e) {
             e.printStackTrace();
         }

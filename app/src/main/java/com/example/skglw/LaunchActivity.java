@@ -36,6 +36,23 @@ public class LaunchActivity extends AppCompatActivity {
         tilUN = findViewById(R.id.tilUsername);
         etUN = findViewById(R.id.username);
 
+        textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tilPW.setErrorEnabled(false);
+                tilUN.setErrorEnabled(false);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        };
+
+        etUN.addTextChangedListener(textWatcher);
+        etPW.addTextChangedListener(textWatcher);
+
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         if(mSettings.contains(APP_PREFERENCES_TOKEN)) {
             User.setToken(mSettings.getString(APP_PREFERENCES_TOKEN, ""));
@@ -87,8 +104,7 @@ public class LaunchActivity extends AppCompatActivity {
                               etPW.setText("");
                               tilPW.setError(" ");
                               tilUN.setError(" ");
-                              etUN.addTextChangedListener(textWatcher);
-                              etPW.addTextChangedListener(textWatcher);
+
                           }
                     }
             }
@@ -102,19 +118,7 @@ public class LaunchActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        textWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                tilPW.setErrorEnabled(false);
-                tilUN.setErrorEnabled(false);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        };
     }
 
     private Boolean auth() {
