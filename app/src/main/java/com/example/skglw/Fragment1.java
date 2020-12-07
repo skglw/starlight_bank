@@ -57,6 +57,14 @@ View view; SwipeRefreshLayout swipeLayout;LinearLayout cardsLayout;
                 startActivity(intent);
             }
         });
+        Button ratesBtn = view.findViewById(R.id.btnRates);
+        ratesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),RatesActivity.class);
+                startActivity(intent);
+            }
+        });
         swipeLayout = view.findViewById(R.id.llSwipe);
         swipeLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {

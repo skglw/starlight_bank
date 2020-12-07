@@ -39,7 +39,6 @@ public class Fragment0 extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
       View view = inflater.inflate(R.layout.fragment0, container, false);
-        Intent intent = getActivity().getIntent();
         JSONObject json = new JSONObject();
         ArrayList<User.Pay> payList= new ArrayList<User.Pay>();
         try {

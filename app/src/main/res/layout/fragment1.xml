@@ -34,7 +34,7 @@
         android:layout_height="wrap_content">-->
         <com.google.android.material.button.MaterialButton
             android:layout_margin="5dp"
-            android:id="@+id/btnValu"
+            android:id="@+id/btnRates"
             android:layout_gravity="center_horizontal"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:layout_width="wrap_content"
