@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
@@ -45,12 +38,11 @@ public class RatesActivity extends AppCompatActivity {
         try {
             request.join();
             String ratesXML = String.valueOf(task.get());
-           // TextView tv = findViewById(R.id.tv);
-           // tv.setText(ratesXML);
+
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-            factory.setNamespaceAware(true);
+          //  factory.setNamespaceAware(true);
             XmlPullParser  parser = factory.newPullParser();
-            Сurrency сurrency = null; String text="hhvg";
+            Сurrency сurrency = null; String text="";
             parser.setInput(new StringReader( ratesXML));
 
             int eventType = parser.getEventType();
@@ -58,37 +50,31 @@ public class RatesActivity extends AppCompatActivity {
                 String tagname = parser.getName();
                 switch (eventType) {
                     case XmlPullParser.START_TAG:
-                        if (tagname.equalsIgnoreCase("Valute")) {
-                            // create a new instance of employee
+                        if (tagname.equals("Valute")) {
                             сurrency = new Сurrency();
                         }
                         break;
-
                     case XmlPullParser.TEXT:
                         text = parser.getText();
                         break;
-
                     case XmlPullParser.END_TAG:
-                        if (tagname.equalsIgnoreCase("Valute")) {
+                        if (tagname.equals("Valute"))
                             valutes.add(сurrency);
-                        }else if (tagname.equalsIgnoreCase("NumCode")) {
 
-                            // Log.e("##########", "numcode "+text);
+                        else if (tagname.equals("NumCode"))
                             сurrency.setNumCode(text);
-                        }else if (tagname.equalsIgnoreCase("CharCode")) {
 
-                           // Log.e("##########", "charcode "+text);
+                        else if (tagname.equals("CharCode"))
                             сurrency.setCharCode(text);
-                        }  else if (tagname.equalsIgnoreCase("Nominal")) {
+
+                        else if (tagname.equals("Nominal"))
                             сurrency.setNominal(Integer.parseInt(text));
-                            //Log.e("##########", "nominal "+text);
-                        } else if (tagname.equalsIgnoreCase("Value")) {
+
+                        else if (tagname.equals("Value"))
                             сurrency.setValue((text));
-                            //Log.e("##########", "value "+text);
-                        } else if (tagname.equalsIgnoreCase("Name")) {
+
+                        else if (tagname.equals("Name"))
                             сurrency.setName(text);
-                            //Log.e("##########", "name "+text);
-                        }
                         break;
 
                     default:
@@ -96,11 +82,10 @@ public class RatesActivity extends AppCompatActivity {
                 }
                 eventType = parser.next();
             }
-
         }
         catch (Exception e) {e.printStackTrace();}
 
-        ValutesAdapter adapter = new ValutesAdapter(this, valutes);
+        RatesAdapter adapter = new RatesAdapter(this, valutes);
         ListView lv = findViewById(R.id.lv);
         lv.setAdapter(adapter);
         lv.setDividerHeight(15);
@@ -161,15 +146,15 @@ public class RatesActivity extends AppCompatActivity {
     }
 
 
-    public class ValutesAdapter extends ArrayAdapter<Сurrency> {
+    public class RatesAdapter extends ArrayAdapter<Сurrency> {
 
         private Context context;
-        private List<Сurrency> valutes;
+        private List<Сurrency> rates;
 
-        public ValutesAdapter(@NonNull Context context, ArrayList<Сurrency> list) {
+        public RatesAdapter(@NonNull Context context, ArrayList<Сurrency> list) {
             super(context, 0 , list);
             this.context = context;
-            valutes = list;
+            rates = list;
         }
 
         @NonNull
@@ -179,7 +164,7 @@ public class RatesActivity extends AppCompatActivity {
             if(item == null)
                 item = LayoutInflater.from(context).inflate(R.layout.item_rates,parent,false);
 
-            Сurrency curVal = valutes.get(position);
+            Сurrency curVal = rates.get(position);
 
             TextView numCode =  item.findViewById(R.id.tv1);
             numCode.setText(curVal.getNumCode());
