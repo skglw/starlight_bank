@@ -2,10 +2,13 @@ package com.example.skglw;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +21,7 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.StringReader;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.FutureTask;
@@ -26,12 +30,20 @@ public class RatesActivity extends AppCompatActivity {
 
     ArrayList<Сurrency> valutes = new ArrayList<>();
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rates);
 
-        RequestCallable callable = new RequestCallable("http://www.cbr.ru/scripts/XML_daily.asp?date_req=18/11/2020");
+        LocalDate today = LocalDate.now();
+        today.getMonth();
+        String month = String.valueOf(today.getMonthValue());
+        String day = String.valueOf(today.getDayOfMonth());
+        if(today.getMonthValue()<10) month = "0"+today.getMonthValue();
+        if(today.getDayOfMonth()<10) day = "0"+today.getDayOfMonth();
+        RequestCallable callable =
+                new RequestCallable("http://www.cbr.ru/scripts/XML_daily.asp?date_req="+day+"/"+month+"/"+today.getYear());
         FutureTask task = new FutureTask(callable);
         Thread request = new Thread(task);
         request.start();
